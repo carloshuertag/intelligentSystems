@@ -6,7 +6,7 @@
 alpha = [ 'Mat', 'Mat', 'Mat', 'Len', 'Len', 'Len', 'Len', 'Ing', 'Ing', 'Ing', 'Soc', 'Soc', 'Soc', 'Bio', 'Bio', 'Fis', 'Fis', 'Tec', 'Tec', 'Tec', 'Qui', 'Qui', 'Pla', 'Pla', 'EdF', 'EdF', 'Mus', 'Mus', 'MAE', 'Tut' ]
 print(alpha)
 print('Use permutation type')
-print('Set Target Fit. to 50')
+print('Set Target Fit. to 60')
 
 # 30 clases por semana, 6h diarias
 
@@ -37,11 +37,15 @@ def pordias (chromosome):
 def fitness (chromosome): # priorize ordered genes
 	franjas = porfranjas(chromosome)
 	dias = pordias(chromosome)
-
+	if 'Tut' not in dias[4]:
+		return 0.0
+	if 'MAE' not in dias[0]:
+		return 0.0
+	if 'Len' not in franjas[1]:
+		return 0.0
 	score = 0.0
-
-	score += 50.0*franjas[0].count('Mat')/5.0 # matemáticas a primera hora (max: 50)
-
+	score += 2.0*franjas[0].count('Mat') # matemáticas a primera hora (max: 50)
+	score += 5.0*franjas[5].count('Pla')
 	for franja in franjas: # prioriza menos asignaturas en la misma franja (max: 5)
 		diferentes = set(franja)
 		score += 1.0 / float(len(diferentes))
@@ -50,9 +54,6 @@ def fitness (chromosome): # priorize ordered genes
 	for dia in dias:
 		diferentes = set(dia)
 		score += 10.0 * float(len(diferentes))
-
-	if 'Tut' not in dias[4]:
-		return 0.0
 
 	return score / len(franjas) # divide por el número de horas al día
 

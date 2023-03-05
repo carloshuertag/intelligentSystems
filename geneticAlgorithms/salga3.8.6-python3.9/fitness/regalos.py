@@ -32,14 +32,16 @@ def phenotype (chromosome): # describe el cromosoma de modo legible
 	return 'Regalos: %s, Precios: %s, Coste: %s, Diferencia: %s' % (chromosome, costes, coste, diferencia)
 
 def fitness (chromosome):
-	coste, diferencia = fitness0(chromosome)
-	if coste>presupuesto: # si se pasa del presupuesto, fitness 0
-		return 0.0
 	# si hay dos regalos iguales, fitness 0
 	
 	chromosomeSet = set(chromosome)
 	if len(chromosome) != len(chromosomeSet):
 		return 0.0
+	
+	coste, diferencia = fitness0(chromosome)
+	if coste>presupuesto: # si se pasa del presupuesto, fitness 0
+		return 1.0 / (1.0 + (coste - presupuesto) + diferencia)
+	
 	
 	error = (presupuesto - coste) + diferencia
 	total = 1.0 / (1.0 + error) # mayor cuanto más cerca del presupuesto y menor la diferencia
