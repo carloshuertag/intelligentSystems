@@ -1,6 +1,6 @@
 import random
 
-n = 10
+n = 50
 
 def generate_random_knapsack_problem(num_items):
     items = []
@@ -14,7 +14,7 @@ def generate_random_knapsack_problem(num_items):
 alphabet, capacity = generate_random_knapsack_problem(n)
 
 def phenotype(chromosome):
-    return f'{len(chromosome)}\n'.join([f'{item[0]}: {item[1]}kg, {item[2]}€' for item in chromosome])
+    return '\n'.join([f'{item[0]}: {item[1]}kg, {item[2]}€' for item in chromosome])
 
 def fitness(chromosome):
     total_weight = 0
