@@ -11,19 +11,38 @@ def generate_random_knapsack_problem(num_items):
     knapsack_capacity = random.randint(num_items*2, num_items*10)
     return items, knapsack_capacity
 
-alphabet, capacity = generate_random_knapsack_problem(n)
+def knapsackDp(items, capacity):
+    n = len(items)
+    dp = [[0 for _ in range(capacity+1)] for _ in range(n+1)]
+    for i in range(1, n+1):
+        for j in range(1, capacity+1):
+            if items[i-1][1] > j:
+                dp[i][j] = dp[i-1][j]
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i-1][j-items[i-1][1]] + items[i-1][2])
+    return dp[n][capacity]
+
+items, capacity = generate_random_knapsack_problem(n)
+maxValue = knapsackDp(items, capacity)
 
 def phenotype(chromosome):
-    return '\n'.join([f'{item[0]}: {item[1]}kg, {item[2]}€' for item in chromosome])
+    total_weight = 0
+    total_value = 0
+    for i in range(len(chromosome)):
+        if chromosome[i] == 1:
+            total_weight += items[i][1]
+            total_value += items[i][2]
+    return f'weight: {total_weight} / {capacity}, value: {total_value}'
 
 def fitness(chromosome):
     total_weight = 0
     total_value = 0
-    for item in chromosome:
-            total_weight += item[1]
-            total_value += item[2]
+    for i in range(len(chromosome)):
+        if chromosome[i] == 1:
+            total_weight += items[i][1]
+            total_value += items[i][2]
     if total_weight > capacity:
-        return 1.0 / (1.0 + abs(total_weight - capacity) / capacity)
-    return 1.0 / (1.0 + (total_value / (20 * n)))
+        return 0.0
+    return 1.0 / (1.0 + ((maxValue - total_value) / maxValue))
 
-parameters = {'alphabet': alphabet, 'type': 'classic', 'elitism': False, 'norm': True, 'chromsize': random.randint(1,n), 'pmut': 0.2}
+parameters = {'alphabet': [0,1], 'type': 'classic', 'elitism': False, 'norm': True, 'chromsize': n, 'pmut': 0.2}
