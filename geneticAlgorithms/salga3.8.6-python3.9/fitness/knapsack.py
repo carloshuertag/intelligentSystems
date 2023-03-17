@@ -1,3 +1,10 @@
+"""
+Authors: Juan Jose Urioste (@juanurioste), Carlos Huerta García (@huerta2502)
+Date: March 17, 2023
+
+fitness and phenotype functions for the knapsack problem
+"""
+
 import random
 
 n = 50

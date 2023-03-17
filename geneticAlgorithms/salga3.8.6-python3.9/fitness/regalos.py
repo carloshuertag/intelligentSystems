@@ -1,7 +1,12 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-1 -*-
 
-# resuelve problema de examen de enero de 2017
+"""
+Authors: Juan Jose Urioste (@juanurioste), Carlos Huerta García (@huerta2502)
+Date: March 17, 2023
+
+fitness and phenotype functions for the gifts problem
+"""
 
 precios = [62,55,17,115,40,65,80,83,99,49,25,30,22,30,30,50,70,60,58,110]
 estrellas = [1,4,3,2,5,1,1,2,5,4,3,4,4,3,2,3,5,4,4,5]

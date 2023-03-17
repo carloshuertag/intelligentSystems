@@ -1,3 +1,10 @@
+"""
+Authors: Juan Jose Urioste (@juanurioste), Carlos Huerta García (@huerta2502)
+Date: March 17, 2023
+
+fitness and phenotype functions for the beer production problem
+"""
+
 def profit(production):
     return 4 * production[0] + 7 * production[1] + 3 * production[2]
 

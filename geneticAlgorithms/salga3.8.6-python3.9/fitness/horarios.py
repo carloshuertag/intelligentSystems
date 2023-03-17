@@ -3,6 +3,13 @@
 
 # programa para optimización de horarios con genéticos
 
+"""
+Authors: Juan Jose Urioste (@juanurioste), Carlos Huerta García (@huerta2502)
+Date: March 17, 2023
+
+fitness and phenotype functions for the schedule problem
+"""
+
 alpha = [ 'Mat', 'Mat', 'Mat', 'Len', 'Len', 'Len', 'Len', 'Ing', 'Ing', 'Ing', 'Soc', 'Soc', 'Soc', 'Bio', 'Bio', 'Fis', 'Fis', 'Tec', 'Tec', 'Tec', 'Qui', 'Qui', 'Pla', 'Pla', 'EdF', 'EdF', 'Mus', 'Mus', 'MAE', 'Tut' ]
 print(alpha)
 print('Use permutation type')

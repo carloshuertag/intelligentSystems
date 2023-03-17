@@ -1,3 +1,10 @@
+"""
+Authors: Juan Jose Urioste (@juanurioste), Carlos Huerta García (@huerta2502)
+Date: March 17, 2023
+
+fitness and phenotype functions for the n-queens problem
+"""
+
 n = 12
 alphabet = [(x,y) for x in range(n) for y in range(n)]
 
