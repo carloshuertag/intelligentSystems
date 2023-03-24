@@ -6,17 +6,27 @@ def expert_system(observation,wins):
     # Regla 1: Si la nave está a la izquierda de la plataforma y tiene un ángulo menor que -0.2 radianes, gira a la derecha
     if left_leg == 1 and right_leg == 1:
       return 0, True
-    if vy < -0.1 and y < 0.8:
-      return 2,False
+    
     if angle < -0.3:
       return 1,False
     if angle > 0.3:
       return 3,False
-    if vx < -0.4 and x < 0.8:
-      return 1,False
-    if vx > 0.4 and x > 0.8:
+    
+    if x < -0.3:
       return 3,False
+    if x > 0.3:
+      return 1,False
+    
+    if vy < -0.1 and y < 0.7:
+      return 2,False
+    
+    if vx < -0.1:
+      return 3,False
+    if vx > 0.1:
+      return 1,False
     return 0,False
+    
+       
   
 env = gym.make("LunarLander-v2", render_mode="human")
 observation, info = env.reset()
@@ -24,7 +34,6 @@ wins = False
 for _ in range(1000):
     action,wins = expert_system(observation,wins)  # agent policy that uses the observation and info
     observation, reward, terminated, truncated, info = env.step(action)
-    print(observation)
     if terminated or truncated:
       if wins: print("Gane!") 
       observation, info = env.reset()
