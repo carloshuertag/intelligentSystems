@@ -1,3 +1,41 @@
+import gymnasium as gym
+
+def expert_system(observation,wins):
+    x, y, vx, vy, angle, angular_velocity, left_leg, right_leg = observation
+    
+    # Regla 1: Si la nave está a la izquierda de la plataforma y tiene un ángulo menor que -0.2 radianes, gira a la derecha
+    if vy < -0.1 and y < 0.8:
+      return 2,False
+    if angle < -0.3:
+      return 1,False
+    if angle > 0.3:
+      return 3,False
+    if left_leg == 1 and right_leg == 1:
+      return 0, True
+    return 0,False
+  
+env = gym.make("LunarLander-v2", render_mode="human")
+observation, info = env.reset()
+wins = False
+for _ in range(1000):
+    action,wins = expert_system(observation,wins)  # agent policy that uses the observation and info
+    observation, reward, terminated, truncated, info = env.step(action)
+    if terminated or truncated:
+      if wins: print("Gane!") 
+      observation, info = env.reset()
+env.close()
+"""
+
+ if event.key == pygame.K_LEFT:
+                action = 3
+            elif event.key == pygame.K_RIGHT:
+                action = 1
+            elif event.key == pygame.K_UP:
+                action = 2
+            else:
+                action = 0 
+"""
+
 # # Rule 2: If the Lunar Lander is moving too fast, slow it down
 #         elif vx > 0.05:
 #             action = 2
