@@ -3,37 +3,54 @@ import gymnasium as gym
 def expert_system(observation):
     x, y, vx, vy, angle, angular_velocity, left_leg, right_leg = observation
     
-    # Regla 1: Si la nave está a la izquierda de la plataforma y tiene un ángulo menor que -0.2 radianes, gira a la derecha
-    if left_leg == 1 and right_leg == 1:
+    won = left_leg == 1 and right_leg == 1
+    vertical_break = (y < 0.9) and vy < 0.1
+    
+    inclined_right = angle < -0.3
+    inclined_left = angle > 0.3
+    
+    too_fast_right = vx > 0.2
+    too_fast_left = vx < -0.2
+    
+    
+    too_righty = x > 0.2
+    too_lefty = x < -0.2
+    
+    if won:
       return 0, True
-    if vy < -0.1 and y < 0.8:
+    
+    if vertical_break and not (inclined_left or inclined_right): #! freno
       return 2,False
-    if x < -0.3:
+    
+    
+    if inclined_left and not too_fast_left:
       return 3,False
-    if x > 0.3:
+    if inclined_right and not too_fast_right:
       return 1,False
     
-    if angle < -0.3:
-      return 1,False
-    if angle > 0.3:
+    if too_righty and not inclined_left:
       return 3,False
     
-    if vx < -0.1:
-      return 3,False
-    if vx > 0.1:
+    if too_lefty and not inclined_right:
       return 1,False
+    
+    
+    if vx < -0.2:
+      return 3,False
+    if vx > 0.2:
+      return 1,False
+    
     return 0,False
     
        
   
 env = gym.make("LunarLander-v2", render_mode="human")
 observation, info = env.reset()
-won = False
 for _ in range(1000):
-    action,wins = expert_system(observation)  # agent policy that uses the observation and info
+    action,won = expert_system(observation)  # agent policy that uses the observation and info
     observation, reward, terminated, truncated, info = env.step(action)
     if terminated or truncated:
-      if won: print("Landed!") 
+      if won: print("Landed!")
       observation, info = env.reset()
 env.close()
 """
@@ -46,6 +63,14 @@ env.close()
                 action = 2
             else:
                 action = 0 
+
+
+
+      
+ if too_fast_left and not inclined_right:
+      return 3,False
+    if too_fast_right and not inclined_left:
+      return 1,False
 """
 
 # # Rule 2: If the Lunar Lander is moving too fast, slow it down
