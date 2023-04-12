@@ -10,7 +10,7 @@ def expert_system(observation):
     isForward = angle > 0.3
     isBackward = angle < -0.3
     isAtBase = y < 0.025
-    isUp = y < 0.8 and vy < -0.025
+    isUp = y < 0.8
     won = left_leg == 1 and right_leg == 1 and isAtBase and not isLeft and not isRight
     if won:
       return 0, True
