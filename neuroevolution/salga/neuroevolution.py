@@ -1,7 +1,9 @@
-from models.Multilayer import Multilayer
 import gymnasium as gym
 import numpy as np
-
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from Multilayer import Multilayer
 
 CHROMSIZE = 8 * 6 + 6 + 6 * 4 + 4
 N = 10  # number of episodes to average
