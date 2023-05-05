@@ -53,28 +53,29 @@ def getMovie(htmlContent: str):
 
 def getMovieDuration(htmlContent: str) -> str:
     """ Gets the movie duration from the movie content """
-    durationRegex = '<li role="presentation" class="ipc-inline-list__item">(.*?)<!-- -->(.*?)<!-- --> <!-- -->(.*?)<!-- -->(.*?)</li>';
+    durationRegex = '</li><li role="presentation" class="ipc-inline-list__item">(.*?)</li></ul></div><div';
     durationMatches = re.search(durationRegex, htmlContent, re.DOTALL)
-    hours = durationMatches.group(1)
-    hours = hours[(len(hours) - 1):len(hours)]
-    minutes = durationMatches.group(3)
+    duration = durationMatches.group(1)
+    duration = duration[(len(duration) - 6):len(duration)]
+    hours = duration[0:duration.index('h')]
+    minutes = duration[(duration.index('h') + 1):duration.index('m')]
     return hours + ' hours and ' + minutes + ' minutes'
 
 def getMovieRating(htmlContent: str) -> str:
     """ Gets the movie rating from the movie content """
-    ratingRegex = '<span class="sc-7ab21ed2-1 eUYAaq">(.*?)</span>'
+    ratingRegex = '<span class="sc-bde20123-1 iZlgcd">(.*?)</span>'
     ratingMatches = re.search(ratingRegex, htmlContent, re.DOTALL)
     return ratingMatches.group(1)
 
 def getMovieVotes(htmlContent: str) -> str:
     """ Gets the movie votes from the movie content """
-    votesRegex = '<div class="sc-7ab21ed2-3 iDwwZL">(.*?)</div>'
+    votesRegex = '<div class="sc-bde20123-3 bjjENQ">(.*?)</div>'
     votesMatches = re.search(votesRegex, htmlContent, re.DOTALL)
     return votesMatches.group(1)
 
 def getMoviePlot(htmlContent: str) -> str:
     """ Gets the movie plot from the movie content """
-    plotRegex = '<span role="presentation" data-testid="plot-l" class="sc-6cc92269-1 dzxjtm">(.*?)</span>'
+    plotRegex = '<span role="presentation" data-testid="plot-l" class="sc-5f699a2-1 cfkOAP">(.*?)</span>'
     plotMatches = re.search(plotRegex, htmlContent, re.DOTALL)
     return plotMatches.group(1)
 
@@ -90,12 +91,12 @@ def getMovieDirector(htmlContent: str) -> str:
     return directors
 
 # Example
-title = 'The Matrix'
+title = '2001'
 movieInfo = getMovieInfo(title)
 for key, value in movieInfo.items():
     if isinstance(value, list):
-        print(key, ' : ')
+        print(key, ': ')
         for item in value:
             print('\t', item)
     else:
-        print(key, ' : ', value)
+        print(key, ': ', value)
