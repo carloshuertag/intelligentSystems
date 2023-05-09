@@ -1,0 +1,39 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	"name": "Python 3",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/python:0-3.10",
+	"features": {
+		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {}
+	},
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "apt-get update --yes && sudo apt-get install swig build-essential python-dev swig git --yes && git clone https://github.com/pybox2d/pybox2d && cd ./pybox2d && python setup.py build && sudo python setup.py install && pip install --upgrade pip && cd .. && pip3 install --user -r requirements.txt && rm -rf ./pybox2d",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"usernamehw.errorlens",
+				"GitHub.copilot",
+				"aaron-bond.better-comments",
+				"ms-vscode-remote.remote-containers",
+				"ms-python.python",
+				"VisualStudioExptTeam.vscodeintellicode"
+
+
+			]
+		}
+	},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "root"
+}
