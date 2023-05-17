@@ -1,0 +1,228 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "movie information",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "HelloWorldIntent",
+          "slots": [],
+          "samples": [
+            "hello",
+            "how are you",
+            "say hi world",
+            "say hi",
+            "hi",
+            "say hello world",
+            "say hello"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "MovieInformation",
+          "slots": [
+            {
+              "name": "movieName",
+              "type": "AMAZON.Movie",
+              "samples": [
+                "I\u0027d like to know about {movieName}",
+                "I wouuld like to know about {movieName}",
+                "{movieName}"
+              ]
+            },
+            {
+              "name": "movieInfo",
+              "type": "MovieInfoField",
+              "samples": [
+                "I\u0027d like to know the {movieInfo}",
+                "I would like to know the {movieInfo}",
+                "the {movieInfo}",
+                "{movieInfo}"
+              ],
+              "multipleValues": {
+                "enabled": false
+              }
+            }
+          ],
+          "samples": [
+            "tell me the {movieInfo} of {movieName}",
+            "tell me the {movieInfo} of the movie {movieName}",
+            "give me the {movieInfo} of {movieName}",
+            "give me the {movieInfo} of the movie {movieName}",
+            "what is the {movieInfo} of the movie {movieName}",
+            "what is the {movieInfo} of {movieName}"
+          ]
+        },
+        {
+          "name": "Movie",
+          "slots": [
+            {
+              "name": "movieName",
+              "type": "AMAZON.Movie",
+              "samples": [
+                "Tell me about {movieName}",
+                " I would like to know about {movieName}",
+                "I\u0027d like to know about {movieName}",
+                "{movieName}"
+              ]
+            }
+          ],
+          "samples": [
+            "giving me details about {movieName}",
+            "information about the movie {movieName}",
+            "information about {movieName}",
+            "tell me about {movieName}",
+            "give me details about {movieName}",
+            "give me details about the movie {movieName}",
+            "tell me about the movie {movieName}",
+            "give me information about the movie {movieName}",
+            "tell me more about {movieName}",
+            "{movieName}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "values": [
+            {
+              "id": "Rating",
+              "name": {
+                "value": "rating"
+              }
+            },
+            {
+              "id": "Votes",
+              "name": {
+                "value": "votes"
+              }
+            },
+            {
+              "id": "Director",
+              "name": {
+                "value": "director",
+                "synonyms": [
+                  "Directors"
+                ]
+              }
+            },
+            {
+              "id": "Plot",
+              "name": {
+                "value": "plot",
+                "synonyms": [
+                  "Synopsis",
+                  "Storyline",
+                  "Summary"
+                ]
+              }
+            },
+            {
+              "id": "Duration",
+              "name": {
+                "value": "duration",
+                "synonyms": [
+                  "Running time"
+                ]
+              }
+            }
+          ],
+          "name": "MovieInfoField"
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "MovieInformation",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "movieName",
+              "type": "AMAZON.Movie",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.875519671926.1547824079403"
+              }
+            },
+            {
+              "name": "movieInfo",
+              "type": "MovieInfoField",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.875519671926.752353105498"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Movie",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "movieName",
+              "type": "AMAZON.Movie",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.1572057128513.1393456679420"
+              }
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.875519671926.1547824079403",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "From which movie would you like to know the {movieInfo} ?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.875519671926.752353105498",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "What would you like to know about {movieName} ?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.1572057128513.1393456679420",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "What movie would you like to know about?"
+          }
+        ]
+      }
+    ]
+  },
+  "version": "5"
+}
