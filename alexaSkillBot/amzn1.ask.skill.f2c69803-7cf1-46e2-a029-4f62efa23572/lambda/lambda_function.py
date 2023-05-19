@@ -109,13 +109,8 @@ class FallbackIntentHandler(AbstractRequestHandler):
 class MovieInformationIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         return ask_utils.is_intent_name("MovieInformation")(handler_input)
-        
-    def handle(self, handler_input):
-        logger.info("In MovieInformation Intent")
-        movie_title = ask_utils.get_slot_value(handler_input=handler_input, slot_name="movieName")
-        info_key = ask_utils.get_slot_value(handler_input=handler_input, slot_name="movieInfo")
-        movie = getMovieInfo(movie_title)
-        result = movie[info_key]
+    
+    def build_output(self, result, movie_title, info_key):
         if isinstance(result, list):
             speak_output = movie_title + ' was directed by: '
             directors = []
@@ -130,6 +125,7 @@ class MovieInformationIntentHandler(AbstractRequestHandler):
                 for i in range(num_directors - 1):
                     speak_output = speak_output + directors[i] + ', '
                 speak_output = speak_output + 'and ' + directors[-1] + '.'
+            return speak_output
         else:
             speak_output = 'The ' + info_key + ' of ' + movie_title
             if info_key == 'votes':
@@ -137,6 +133,15 @@ class MovieInformationIntentHandler(AbstractRequestHandler):
             else:
                 speak_output = speak_output + ' is: '
             speak_output = speak_output + result + '.'
+        return speak_output
+        
+    def handle(self, handler_input):
+        logger.info("In MovieInformation Intent")
+        movie_title = ask_utils.get_slot_value(handler_input=handler_input, slot_name="movieName")
+        info_key = ask_utils.get_slot_value(handler_input=handler_input, slot_name="movieInfo")
+        movie = getMovieInfo(movie_title)
+        result = movie[info_key]
+        speak_output = self.build_output(result, movie_title, info_key)
         return (
             handler_input.response_builder
             .speak(speak_output)
@@ -146,11 +151,8 @@ class MovieInformationIntentHandler(AbstractRequestHandler):
 class MovieIntentHandler(AbstractRequestHandler):
     def can_handle(self, handler_input):
         return ask_utils.is_intent_name("Movie")(handler_input)
-        
-    def handle(self, handler_input):
-        logger.info("In MovieInformation Intent")
-        movie_title = ask_utils.get_slot_value(handler_input=handler_input, slot_name="movieName")
-        movie = getMovieInfo(movie_title)
+    
+    def build_output(self, movie_title, movie):
         speak_output = 'Here is some information about ' + movie_title + ': '
         for key, value in movie.items():
             if isinstance(value, list):
@@ -174,6 +176,13 @@ class MovieIntentHandler(AbstractRequestHandler):
                 else:
                     speak_output = speak_output + ' is: '
                 speak_output = speak_output + value
+        return speak_output
+        
+    def handle(self, handler_input):
+        logger.info("In MovieInformation Intent")
+        movie_title = ask_utils.get_slot_value(handler_input=handler_input, slot_name="movieName")
+        movie = getMovieInfo(movie_title)
+        speak_output = self.build_output(movie_title, movie)
         return (
             handler_input.response_builder
             .speak(speak_output)
